@@ -19,16 +19,42 @@ class FirstFragment : Fragment() {
 
 
     public companion object{
-        var language = mutableSetOf<String>()
-        var description = mutableSetOf<String>()
-        var id_set = mutableSetOf<String>()
+        fun getTitles(sozlukVerileri: Array<SozlukVeri>) : MutableList<String> {
+            var titles = mutableListOf<String>()
+
+            for (i in sozlukVerileri) {
+                titles.add(i.language)
+            }
+
+            return titles;
+        }
+
+        fun alfabetikDuzenle(sozlukVerileri : MutableList<SozlukVeri>) : MutableList<SozlukVeri>{
+
+            for (j in 0..sozlukVerileri.size-2){
+                for (i in 0..sozlukVerileri.size-2){
+                    if (sozlukVerileri.elementAt(i).language.compareTo(sozlukVerileri.elementAt(i+1).language) > 0){
+                        var temp = sozlukVerileri.elementAt(i)
+                        sozlukVerileri[i] = sozlukVerileri.elementAt(i+1)
+                        sozlukVerileri[i+1] = temp
+                    }
+                }
+            }
+
+            return sozlukVerileri
+        }
+
+        var sozlukVerileri = mutableListOf<SozlukVeri>()
+
 
         fun reloadListView(context: Context,list_view: ListView){
             var dh = DataHelper(context)
 
             dh.get()
 
-            val myListAdapter = MyListAdapter(context as Activity,language.toTypedArray(),description.toTypedArray(),id_set.toTypedArray())
+            sozlukVerileri = alfabetikDuzenle(sozlukVerileri);
+
+            val myListAdapter = MyListAdapter(context as Activity,sozlukVerileri.toTypedArray())
             list_view.adapter = myListAdapter
 
             list_view.setOnItemClickListener() { adapterView, view, position, id ->

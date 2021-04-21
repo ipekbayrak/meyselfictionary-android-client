@@ -52,8 +52,7 @@ class MainActivity : AppCompatActivity() {
         val word = messageBoxView.editText_word.text
 
         messageBoxView.button_add.setOnClickListener { view ->
-            //sözlüğe alfabetik ekle
-            //listeyi güncelle
+
             var dh = DataHelper(this)
             dh.add(word.toString(), meaning.toString())
             dh.get()

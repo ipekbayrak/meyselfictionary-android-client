@@ -19,6 +19,8 @@ class DataHelper(val context: Context)   {
         last = sharedPref.getInt("lastID",0)
 
         last = last+ 1
+
+
         set?.add(last.toString())
 
         editor.putStringSet("IDSet", set)
@@ -34,15 +36,16 @@ class DataHelper(val context: Context)   {
         val sharedPref: SharedPreferences =  context.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
         val editor = sharedPref.edit()
 
-        FirstFragment.language = mutableSetOf<String>()
-        FirstFragment.description = mutableSetOf<String>()
-        FirstFragment.id_set = mutableSetOf<String>()
+        FirstFragment.sozlukVerileri = mutableListOf<SozlukVeri>()
 
         var id_set = sharedPref.getStringSet("IDSet", mutableSetOf<String>())
         id_set?.iterator()?.forEach {
-            FirstFragment.language.add(sharedPref.getString("word$it","").toString())
-            FirstFragment.description.add(sharedPref.getString("meaning$it","").toString())
-            FirstFragment.id_set.add(it)
+            var veri = SozlukVeri()
+            veri.language = sharedPref.getString("word$it","").toString()
+            veri.description = sharedPref.getString("meaning$it","").toString()
+            veri.id_set = it
+            FirstFragment.sozlukVerileri.add(veri)
+
         }
 
         return
@@ -52,10 +55,7 @@ class DataHelper(val context: Context)   {
         val sharedPref: SharedPreferences =  context.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
         val editor = sharedPref.edit()
 
-        val set = sharedPref.getStringSet("IDSet", mutableSetOf<String>())
 
-        var last = 0
-        last = sharedPref.getInt("lastID",0)
 
         var temp_id_set = mutableSetOf<String>()
         var id_set = sharedPref.getStringSet("IDSet", mutableSetOf<String>())
@@ -71,5 +71,6 @@ class DataHelper(val context: Context)   {
         get()
         return
     }
+
 
 }
